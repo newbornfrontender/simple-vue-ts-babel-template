@@ -1,4 +1,4 @@
-<h1 align="center">Simple Vue TS Babel template</h1>
+<h1 align="center">Simple Vue TypeScript Babel template</h1>
 <p>Простой типизированный Webpack 4 шаблон для Vue с TypeScript и Babel</p>
 
 > Для использования шаблона необходим <a href="https://yarnpkg.com/">Yarn</a>
