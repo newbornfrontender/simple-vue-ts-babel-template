@@ -1,0 +1,8 @@
+{
+  "name": "simple-vue-ts-babel-template",
+  "version": "0.1.0",
+  "description": "Простой типизированный Webpack 4 шаблон для Vue с TypeScript и Babel",
+  "repository": "https://github.com/newbornfrontender/simple-vue-ts-babel-template.git",
+  "author": "Infant Frontender <newbornfrontender@gmail.com>",
+  "license": "MIT"
+}
