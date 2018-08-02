@@ -40,7 +40,7 @@ const config: Configuration = WebpackMerge({
 }, {
   mode: 'production',
   resolve: {
-    extensions: [ '.ts', '.tsx', '.hbs', '.vue' ],
+    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.hbs', '.vue' ],
   },
   entry: {
     index: resolve(__dirname, '../src/index.ts'),
