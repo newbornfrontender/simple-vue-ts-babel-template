@@ -12,6 +12,7 @@ import WebpackMerge from 'webpack-merge';
 // -----------------------------------------------------------------------------
 
 import WebpackDotenvPlugin from 'webpack-dotenv-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 // -----------------------------------------------------------------------------
@@ -80,6 +81,21 @@ const config: Configuration = WebpackMerge({
     //     'HASH_DIGEST_LENGTH': JSON.stringify(process.env.HASH_DIGEST_LENGTH),
     //   },
     // }),
+    new HtmlWebpackPlugin({
+      template: resolve(__dirname, '../public/index.html'),
+      filename: 'index.html',
+      title: 'Simple Vue TypeScript Babel template',
+      meta: {
+        charset: 'UTF-8',
+        viewport: 'width=device-width, initial-scale=1.0',
+      },
+      inject: true,
+      hash: false,
+      minify: {
+        removeComments: false,
+        collapseWhitespace: false,
+      },
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
       chunkFilename: 'css/[name].[contenthash].css',
