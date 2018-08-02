@@ -39,6 +39,9 @@ const config: Configuration = WebpackMerge({
   ],
 }, {
   mode: 'production',
+  resolve: {
+    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.hbs', '.vue' ],
+  },
   entry: {
     index: resolve(__dirname, '../src/index.ts'),
   },
@@ -50,11 +53,39 @@ const config: Configuration = WebpackMerge({
   },
   module: {
     rules: [{
+      test: /\.vue$/,
+      use: [{
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            ts: 'ts-loader',
+            tsx: 'babel-loader!ts-loader',
+          },
+        },
+      }],
+    }, {
       test: /\.ts$/,
       exclude: /node_modules/,
       use: [{
         loader: 'ts-loader',
-        options: {},
+        options: {
+          appendTsSuffixTo: [ /TS\.vue$/ ],
+        },
+      }],
+    }, {
+      test: /\.tsx$/,
+      exclude: /node_modules/,
+      use: [{
+        loader: 'babel-loader!ts-loader',
+        options: {
+          appendTsxSuffixTo: [ /TSX\.vue$/ ],
+        },
+      }],
+    }, {
+      test: /\.hbs$/,
+      exclude: /node_modules/,
+      use: [{
+        loader: 'handlebars-loader',
       }],
     }, {
       test: /\.css$/,
@@ -63,7 +94,6 @@ const config: Configuration = WebpackMerge({
         MiniCssExtractPlugin.loader,
         {
           loader: 'css-loader',
-          options: {},
         },
       ],
     }],
@@ -82,7 +112,7 @@ const config: Configuration = WebpackMerge({
     //   },
     // }),
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, '../public/index.html'),
+      template: resolve(__dirname, '../public/index.hbs'),
       filename: 'index.html',
       title: 'Simple Vue TypeScript Babel template',
       meta: {
