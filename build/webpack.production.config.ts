@@ -53,7 +53,7 @@ const config: Configuration = WebpackMerge({
       exclude: /node_modules/,
       use: [{
         loader: 'ts-loader',
-        // options: {},
+        options: {},
       }],
     }, {
       test: /\.css$/,
@@ -62,7 +62,7 @@ const config: Configuration = WebpackMerge({
         MiniCssExtractPlugin.loader,
         {
           loader: 'css-loader',
-          // options: {},
+          options: {},
         },
       ],
     }],
