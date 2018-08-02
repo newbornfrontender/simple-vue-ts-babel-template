@@ -1,12 +1,20 @@
 'use strict';
 
+// -----------------------------------------------------------------------------
+
 import { Configuration, EnvironmentPlugin, DefinePlugin } from 'webpack';
 import { resolve } from 'path';
 
+// -----------------------------------------------------------------------------
+
 import WebpackMerge from 'webpack-merge';
+
+// -----------------------------------------------------------------------------
 
 import WebpackDotenvPlugin from 'webpack-dotenv-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+// -----------------------------------------------------------------------------
 
 declare const process: {
   env: {
@@ -15,6 +23,8 @@ declare const process: {
     HASH_DIGEST_LENGTH: string;
   };
 };
+
+// -----------------------------------------------------------------------------
 
 const config: Configuration = WebpackMerge({
   plugins: [
@@ -76,5 +86,7 @@ const config: Configuration = WebpackMerge({
     }),
   ],
 });
+
+// -----------------------------------------------------------------------------
 
 export default config;
