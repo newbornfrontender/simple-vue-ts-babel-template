@@ -2,7 +2,28 @@
   "name": "simple-vue-ts-babel-template",
   "version": "0.1.0",
   "description": "Простой типизированный Webpack 4 шаблон для Vue с TypeScript и Babel",
+  "scripts": {
+    "build": "webpack --config build/webpack.production.config.ts"
+  },
   "repository": "https://github.com/newbornfrontender/simple-vue-ts-babel-template.git",
   "author": "Infant Frontender <newbornfrontender@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.55",
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.55",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "@babel/preset-typescript": "^7.0.0-beta.55",
+    "@types/mini-css-extract-plugin": "^0.2.0",
+    "@types/node": "^10.5.5",
+    "@types/webpack": "^4.4.9",
+    "css-loader": "^1.0.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.1.0-dev.20180801",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
+  }
 }
