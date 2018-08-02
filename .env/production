@@ -1,2 +1,4 @@
+NODE_ENV=production
+
 HASH_DIGEST=hex
 HASH_DIGEST_LENGTH=7
