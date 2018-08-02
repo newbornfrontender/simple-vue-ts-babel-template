@@ -6,6 +6,7 @@
 
     "strict": true,
 
+    "types": [],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
   },
