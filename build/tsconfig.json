@@ -6,7 +6,6 @@
     "strict": true,
 
     "types": [
-      "handlebars",
       "html-webpack-plugin",
       "mini-css-extract-plugin",
       "node",

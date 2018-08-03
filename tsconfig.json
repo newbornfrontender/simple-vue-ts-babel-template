@@ -6,7 +6,10 @@
 
     "strict": true,
 
-    "types": [],
+    "types": [
+      "ejs",
+      "pug",
+    ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
   },
