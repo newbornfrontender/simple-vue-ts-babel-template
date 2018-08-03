@@ -22,6 +22,7 @@ declare const process: {
     NODE_ENV: 'development' | 'production' | 'none';
     HASH_DIGEST: 'hex' | 'latin1' | 'base64';
     HASH_DIGEST_LENGTH: string;
+    TEMPLATE_EXT: 'html' | 'ejs' | 'pug';
   };
 };
 
@@ -40,7 +41,7 @@ const config: Configuration = WebpackMerge({
 }, {
   mode: 'production',
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.hbs', '.vue' ],
+    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.ejs', '.pug', '.vue' ],
   },
   entry: {
     index: resolve(__dirname, '../src/index.ts'),
@@ -60,6 +61,8 @@ const config: Configuration = WebpackMerge({
           loaders: {
             ts: 'ts-loader',
             tsx: 'babel-loader!ts-loader',
+            scss: 'vue-style-loader!css-loader!sass-loader',
+            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
           },
         },
       }],
@@ -82,20 +85,25 @@ const config: Configuration = WebpackMerge({
         },
       }],
     }, {
-      test: /\.hbs$/,
+      test: /\.html$/,
       exclude: /node_modules/,
-      use: [{
-        loader: 'handlebars-loader',
+      use: [ 'raw-loader', 'posthtml-loader' ],
+    }, {
+      test: /\.ejs$/,
+      exclude: /node_modules/,
+      use: [ 'posthtml-loader', 'ejs-loader' ],
+    }, {
+      test: /\.pug$/,
+      oneOf: [{
+        resourceQuery: /^\?vue/,
+        use: [ 'posthtml-loader', 'pug-plain-loader' ]
+      }, {
+        use: [ 'raw-loader', 'posthtml-loader', 'pug-plain-loader' ]
       }],
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader',
-        },
-      ],
+      use: [ MiniCssExtractPlugin.loader, 'css-loader' ],
     }],
   },
   plugins: [
@@ -112,11 +120,11 @@ const config: Configuration = WebpackMerge({
     //   },
     // }),
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, '../public/index.hbs'),
+      template: resolve(__dirname, `../public/index.${process.env.TEMPLATE_EXT}`),
       filename: 'index.html',
       title: 'Simple Vue TypeScript Babel template',
       meta: {
-        charset: 'UTF-8',
+        charset: 'utf-8',
         viewport: 'width=device-width, initial-scale=1.0',
       },
       inject: true,
