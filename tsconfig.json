@@ -1,16 +1,41 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
+    "target": "es5",
+    "module": "esnext",
     "declaration": false,
-
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": ".",
     "strict": true,
-
+    "paths": {
+      "@/*": [
+        "src/*",
+      ],
+    },
     "types": [
       "ejs",
+      "node",
+      "node-sass",
       "pug",
     ],
-    "allowSyntheticDefaultImports": true,
+    // "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "lib": [
+      "es2015",
+      "dom",
+      "dom.iterable",
+      "scripthost",
+    ],
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+  ],
+  "exclude": [
+    "node_modules",
+  ],
 }

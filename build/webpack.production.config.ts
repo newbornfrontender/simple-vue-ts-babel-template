@@ -2,7 +2,7 @@
 
 // -----------------------------------------------------------------------------
 
-import { Configuration, EnvironmentPlugin, DefinePlugin } from 'webpack';
+import { Configuration } from 'webpack';
 import { resolve } from 'path';
 
 // -----------------------------------------------------------------------------
@@ -12,6 +12,8 @@ import WebpackMerge from 'webpack-merge';
 // -----------------------------------------------------------------------------
 
 import WebpackDotenvPlugin from 'webpack-dotenv-plugin';
+import { EnvironmentPlugin, DefinePlugin } from 'webpack';
+import { VueLoaderPlugin } from 'vue-loader';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -41,10 +43,12 @@ const config: Configuration = WebpackMerge({
 }, {
   mode: 'production',
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.ejs', '.pug', '.vue' ],
+    extensions: [
+      '.ts', '.tsx', '.js', '.jsx', '.ejs', '.pug', '.vue', 'json',
+    ],
   },
   entry: {
-    index: resolve(__dirname, '../src/index.ts'),
+    main: resolve(__dirname, '../src/main.ts'),
   },
   output: {
     path: resolve(__dirname, '../dist'),
@@ -61,8 +65,6 @@ const config: Configuration = WebpackMerge({
           loaders: {
             ts: 'ts-loader',
             tsx: 'babel-loader!ts-loader',
-            scss: 'vue-style-loader!css-loader!sass-loader',
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
           },
         },
       }],
@@ -72,6 +74,7 @@ const config: Configuration = WebpackMerge({
       use: [{
         loader: 'ts-loader',
         options: {
+          configFile: resolve(__dirname, '../tsconfig.json'),
           appendTsSuffixTo: [ /TS\.vue$/ ],
         },
       }],
@@ -84,15 +87,19 @@ const config: Configuration = WebpackMerge({
           appendTsxSuffixTo: [ /TSX\.vue$/ ],
         },
       }],
-    }, {
+    }, /* {
+      test: /\.js(x)?$/,
+      exclude: /node_modules/,
+      use: [ 'babel-loader' ],
+    }, */ {
       test: /\.html$/,
       exclude: /node_modules/,
       use: [ 'raw-loader', 'posthtml-loader' ],
-    }, {
+    }, /* {
       test: /\.ejs$/,
       exclude: /node_modules/,
       use: [ 'posthtml-loader', 'ejs-loader' ],
-    }, {
+  }, *//* {
       test: /\.pug$/,
       oneOf: [{
         resourceQuery: /^\?vue/,
@@ -100,25 +107,39 @@ const config: Configuration = WebpackMerge({
       }, {
         use: [ 'raw-loader', 'posthtml-loader', 'pug-plain-loader' ]
       }],
-    }, {
+    }, */ {
       test: /\.css$/,
       exclude: /node_modules/,
       use: [ MiniCssExtractPlugin.loader, 'css-loader' ],
+    }, {
+      test: /\.scss$/,
+      exclude: /node_modules/,
+      use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader' ],
+    }, {
+      test: /\.sass$/,
+      exclude: /node_modules/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+          loader: 'sass-loader',
+          options: {
+            indentedSyntax: true,
+          },
+        },
+      ],
     }],
   },
   plugins: [
     new EnvironmentPlugin([
       'NODE_ENV',
-      'HASH_DIGEST',
-      'HASH_DIGEST_LENGTH',
     ]),
     // new DefinePlugin({
     //   'process.env': {
     //     'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    //     'HASH_DIGEST': JSON.stringify(process.env.HASH_DIGEST),
-    //     'HASH_DIGEST_LENGTH': JSON.stringify(process.env.HASH_DIGEST_LENGTH),
     //   },
     // }),
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: resolve(__dirname, `../public/index.${process.env.TEMPLATE_EXT}`),
       filename: 'index.html',
